@@ -1,10 +1,10 @@
 project:
   type: website
-  output-dir: desks
+  output-dir: docs
 
 website:
   title: "My Awesome CSCI 0451 Blog"
-  output-dir: desks
+  output-dir: docs
   navbar:
     background: "#112a39"
     right:
