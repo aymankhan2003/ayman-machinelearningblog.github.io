@@ -16,31 +16,25 @@ class LogisticRegression:
         return np.append(X, np.ones((X.shape[0], 1)), 1)
             
     def fit(self, X, y, alpha=None, max_epochs=None):
-        X_ = self.pad(X)
         n_samples, n_features = X.shape
-        self.w = np.zeros(n_features)
-        self.bias = 0
+        self.w = np.random.rand(n_features+1)
         
-        self.loss_history = []  #initialize loss_history list
-        self.score_history = []  # initialize score_history list 
+        self.loss_history = []
+        self.score_history = []
         
         if alpha is not None:
             self.alpha = alpha
         if max_epochs is not None:
             self.max_epochs = max_epochs
-
+        
         for _ in range(self.max_epochs):
-            # Calculate the activation value for each sample
-            y_hat = np.dot(X, self.w) + self.bias
+            j = np.random.randint(X.shape[0])
+            xi = np.append(X[j], 1)
+            y_hat = np.dot(xi, self.w)
             yi = self.sigmoid(y_hat)
-
-            # Calculate the gradients
-            a = (1 / n_samples) * np.dot(X.T, (yi - y))
-            b = (1 / n_samples) * np.sum(yi - y)
-
-            # Update the weights and bias
-            self.w -= self.alpha * a
-            self.bias -= self.alpha * b
+            
+            gradient = np.dot(self.sigmoid(y_hat) - y[j], xi) / n_samples
+            self.w -= self.alpha * gradient
             
             accuracy = self.score(X, y)
             self.loss_history.append(self.loss(yi, y))
@@ -48,7 +42,6 @@ class LogisticRegression:
             
         
     def fit_stochastic(self, X, y, alpha=None, max_epochs=None, batch_size=None, momentum=False):  
-        X_ = self.pad(X)
         if alpha is not None:
             self.alpha = alpha
         if max_epochs is not None:
@@ -57,8 +50,8 @@ class LogisticRegression:
             batch_size = X.shape[0]
         
         n_samples, n_features = X.shape
-        self.w = np.zeros(n_features)
-        self.bias = 0
+        self.w = np.random.rand(n_features+1)
+
     
         self.loss_history = []   #initialize loss_history list
         self.score_history = []  # initialize score_history list 
@@ -71,7 +64,7 @@ class LogisticRegression:
             for batch in np.array_split(order, n_samples // batch_size + 1):
                 xi = X[batch,:]  
                 yi = y[batch]
-                y_hat = np.dot(xi, self.w) + self.bias
+                y_hat = np.dot(xi, self.w)
         
                 if momentum:
                     gradient = np.dot(self.sigmoid(y_hat) - yi, xi) / n_samples
