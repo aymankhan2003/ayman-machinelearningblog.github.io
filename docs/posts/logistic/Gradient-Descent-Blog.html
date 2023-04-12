@@ -221,89 +221,83 @@ background-size: cover;
 <section id="fit-method" class="level1">
 <h1>Fit Method</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit(<span class="va">self</span>, X, y, alpha<span class="op">=</span><span class="va">None</span>, max_epochs<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        X_ <span class="op">=</span> <span class="va">self</span>.pad(X)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        n_samples, n_features <span class="op">=</span> X.shape</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.w <span class="op">=</span> np.zeros(n_features)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bias <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.loss_history <span class="op">=</span> []</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.score_history <span class="op">=</span> []</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> alpha <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.alpha <span class="op">=</span> alpha</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> max_epochs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.max_epochs <span class="op">=</span> max_epochs</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.max_epochs):</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the activation value for each sample</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            y_hat <span class="op">=</span> np.dot(X, <span class="va">self</span>.w) <span class="op">+</span> <span class="va">self</span>.bias</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            yi <span class="op">=</span> <span class="va">self</span>.sigmoid(y_hat)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the gradients</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            a <span class="op">=</span> (<span class="dv">1</span> <span class="op">/</span> n_samples) <span class="op">*</span> np.dot(X.T, (yi <span class="op">-</span> y))</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> (<span class="dv">1</span> <span class="op">/</span> n_samples) <span class="op">*</span> np.<span class="bu">sum</span>(yi <span class="op">-</span> y)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update the weights and bias</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.w <span class="op">-=</span> <span class="va">self</span>.alpha <span class="op">*</span> a</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.bias <span class="op">-=</span> <span class="va">self</span>.alpha <span class="op">*</span> b</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>            accuracy <span class="op">=</span> <span class="va">self</span>.score(X, y)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.loss_history.append(<span class="va">self</span>.loss(yi, y))</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.score_history.append(accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">def</span> fit(<span class="va">self</span>, X, y, alpha<span class="op">=</span><span class="va">None</span>, max_epochs<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        n_samples, n_features <span class="op">=</span> X.shape</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.w <span class="op">=</span> np.random.rand(n_features<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.loss_history <span class="op">=</span> []</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.score_history <span class="op">=</span> []</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> alpha <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.alpha <span class="op">=</span> alpha</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> max_epochs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.max_epochs <span class="op">=</span> max_epochs</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.max_epochs):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            j <span class="op">=</span> np.random.randint(X.shape[<span class="dv">0</span>])</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            xi <span class="op">=</span> np.append(X[j], <span class="dv">1</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            y_hat <span class="op">=</span> np.dot(xi, <span class="va">self</span>.w)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            yi <span class="op">=</span> <span class="va">self</span>.sigmoid(y_hat)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            gradient <span class="op">=</span> np.dot(<span class="va">self</span>.sigmoid(y_hat) <span class="op">-</span> y[j], xi) <span class="op">/</span> n_samples</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.w <span class="op">-=</span> <span class="va">self</span>.alpha <span class="op">*</span> gradient</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            accuracy <span class="op">=</span> <span class="va">self</span>.score(X, y)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.loss_history.append(<span class="va">self</span>.loss(yi, y))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.score_history.append(accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This method specifies how a logistic regression model is fitted. Three parameters are required by the method: X, y, and two optional ones, alpha and max epochs. The X parameter is a 2-dimensional NumPy array of the shape (n samples, n features), where n samples is the dataset’s sample count and n features is the total number of features for all samples. The labels for each sample in the dataset are included in a 1-dimensional NumPy array with shape (n samples), which is the y parameter. The learning rate is the alpha parameter. The gradient descent algorithm’s maximum number of epochs is indicated by the max_epochs parameter. To accommodate the bias term, the input X is first padded with ones inside the algorithm. The weights and bias are then set to zero at this point. The method then repeats max epochs times with the following results for each iteration: - The sigmoid function is used to determine the predicted values for the present weights and bias. - With the use of the mean squared error loss function, it determines the gradients for the weights and bias. - Using the gradients and learning rate, it updates the weights and bias. - It keeps track of the accuracy and loss for this iteration. - The loss and accuracy histories are kept in self.loss history and self.score history, respectively, at the end of the method.</p>
+<p>This method specifies how a logistic regression model is fitted. Three parameters are required by the method: X, y, and two optional ones, alpha and max epochs. The X parameter is a NumPy array of the shape (n samples, n features), where n samples is the dataset’s sample count and n features is the total number of features for all samples. The labels for each sample in the dataset are included in a NumPy array with shape (n samples), which is the y parameter. The learning rate is the alpha parameter. The gradient descent algorithm’s maximum number of epochs is indicated by the max_epochs parameter. To accommodate the bias term, a one is added to the weight vector. The method then repeats max epochs times with the following results for each iteration: - The sigmoid function is used to determine the predicted values for the present weights . - With the use of the loss function, it determines the gradients for the weights. - Using the gradients and learning rate, it updates the weights. - It keeps track of the accuracy and loss for this iteration. - The loss and accuracy histories are kept in self.loss history and self.score history, respectively, at the end of the method.</p>
 </section>
 <section id="fit-stochastic-method" class="level1">
 <h1>Fit Stochastic Method</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_stochastic(<span class="va">self</span>, X, y, alpha<span class="op">=</span><span class="va">None</span>, max_epochs<span class="op">=</span><span class="va">None</span>, batch_size<span class="op">=</span><span class="va">None</span>, momentum<span class="op">=</span><span class="va">False</span>):  </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        X_ <span class="op">=</span> <span class="va">self</span>.pad(X)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> alpha <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.alpha <span class="op">=</span> alpha</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> max_epochs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.max_epochs <span class="op">=</span> max_epochs</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> batch_size <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            batch_size <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        n_samples, n_features <span class="op">=</span> X.shape</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.w <span class="op">=</span> np.zeros(n_features)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bias <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.loss_history <span class="op">=</span> []</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.score_history <span class="op">=</span> []  <span class="co"># initialize score_history list here</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        velocity <span class="op">=</span> np.zeros_like(<span class="va">self</span>.w) <span class="cf">if</span> momentum <span class="cf">else</span> <span class="dv">0</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.max_epochs):</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            order <span class="op">=</span> np.arange(n_samples)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            np.random.shuffle(order)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> batch <span class="kw">in</span> np.array_split(order, n_samples <span class="op">//</span> batch_size <span class="op">+</span> <span class="dv">1</span>):</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                xi <span class="op">=</span> X[batch,:]  </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                yi <span class="op">=</span> y[batch]</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                y_hat <span class="op">=</span> np.dot(xi, <span class="va">self</span>.w) <span class="op">+</span> <span class="va">self</span>.bias</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> momentum:</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                    gradient <span class="op">=</span> np.dot(<span class="va">self</span>.sigmoid(y_hat) <span class="op">-</span> yi, xi) <span class="op">/</span> n_samples</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                    velocity <span class="op">=</span> <span class="fl">0.8</span><span class="op">*</span>velocity <span class="op">+</span> alpha <span class="op">*</span> gradient</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.w <span class="op">-=</span> velocity</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                    gradient <span class="op">=</span> np.dot(<span class="va">self</span>.sigmoid(y_hat) <span class="op">-</span> yi, xi) <span class="op">/</span> n_samples</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.w <span class="op">-=</span> alpha <span class="op">*</span> gradient</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            y_hat <span class="op">=</span> <span class="va">self</span>.sigmoid(np.dot(X, <span class="va">self</span>.w))</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            accuracy <span class="op">=</span> <span class="va">self</span>.score(X, y)</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.loss_history.append(<span class="va">self</span>.loss(y_hat, y))</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.score_history.append(accuracy) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> alpha <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.alpha <span class="op">=</span> alpha</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> max_epochs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.max_epochs <span class="op">=</span> max_epochs</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> batch_size <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            batch_size <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        n_samples, n_features <span class="op">=</span> X.shape</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.w <span class="op">=</span> np.random.rand(n_features<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.loss_history <span class="op">=</span> []   <span class="co">#initialize loss_history list</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.score_history <span class="op">=</span> []  <span class="co"># initialize score_history list </span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        velocity <span class="op">=</span> np.zeros_like(<span class="va">self</span>.w) <span class="cf">if</span> momentum <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.max_epochs):</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            order <span class="op">=</span> np.arange(n_samples)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            np.random.shuffle(order)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> batch <span class="kw">in</span> np.array_split(order, n_samples <span class="op">//</span> batch_size <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                xi <span class="op">=</span> X[batch,:]  </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                yi <span class="op">=</span> y[batch]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                y_hat <span class="op">=</span> np.dot(xi, <span class="va">self</span>.w) </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> momentum:</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                    gradient <span class="op">=</span> np.dot(<span class="va">self</span>.sigmoid(y_hat) <span class="op">-</span> yi, xi) <span class="op">/</span> n_samples</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                    velocity <span class="op">=</span> <span class="fl">0.8</span><span class="op">*</span>velocity <span class="op">+</span> alpha <span class="op">*</span> gradient</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.w <span class="op">-=</span> velocity</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>                    gradient <span class="op">=</span> np.dot(<span class="va">self</span>.sigmoid(y_hat) <span class="op">-</span> yi, xi) <span class="op">/</span> n_samples</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.w <span class="op">-=</span> alpha <span class="op">*</span> gradient</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            y_hat <span class="op">=</span> <span class="va">self</span>.sigmoid(np.dot(X, <span class="va">self</span>.w))</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            accuracy <span class="op">=</span> <span class="va">self</span>.score(X, y)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.loss_history.append(<span class="va">self</span>.loss(y_hat, y))</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.score_history.append(accuracy) </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This method describes the stochastic gradient descent fit for a logistic regression model. The method requires five parameters: X, y, alpha, max epochs, and batch size. The fit method’s X and y parameters remain the same. The learning rate, or alpha parameter, regulates the gradient descent step size. The maximum number of epochs for the algorithm to run is specified by the max epochs option. The size of each mini-batch in the method is specified by the batch size parameter. To account for the bias term, the approach first pads the input X with ones. Then, it adjusts the values of alpha, max epochs, and batch_size as necessary after verifying that they are supplied. The bias and weights have zero initial values. A new score_history list is initialized along with the loss_history list to store the accuracy history for every epoch. The procedure initializes a new velocity array with the same structure as the weights array if momentum is set to True. The use of momentum is controlled by the momentum parameter. The order of the samples is then randomly shuffled when the procedure repeats over each epoch. The samples are then divided into smaller batches of size batch_size. The method uses the sigmoid function to determine for each mini-batch the predicted values for the current weights and bias. The mean squared error loss function is then used to determine the gradients for the weights and bias. If momentum is set to True, the method first updates the weights using the velocity array before updating the velocity array. Otherwise, it uses the gradients and the learning rate to directly update the weights. The approach determines the predicted values for all samples using the current weights and bias after iterating over all of the mini-batches. Also, it computes this epoch’s accuracy and loss and adds them to the relevant histories. The loss and accuracy histories are kept in self.loss_history and self.score_history, respectively, at the end of the method.</p>
-<div class="cell" data-execution_count="34">
+<p>This method describes the stochastic gradient descent fit for a logistic regression model. The method requires five parameters: X, y, alpha, max epochs, and batch size. The fit method’s X and y parameters remain the same. The learning rate, or alpha parameter, regulates the gradient descent step size. The maximum number of epochs for the algorithm to run is specified by the max epochs option. The size of each mini-batch in the method is specified by the batch size parameter. To account for the bias term, the weight vector has a one added to it. Then, it adjusts the values of alpha, max epochs, and batch_size as necessary after verifying that they are supplied. A new score_history list is initialized along with the loss_history list to store the accuracy history for every epoch. The procedure initializes a new velocity array with the same structure as the weights array if momentum is set to True. The use of momentum is controlled by the momentum parameter. The order of the samples is then randomly shuffled when the procedure repeats over each epoch. The samples are then divided into smaller batches of size batch_size. The method uses the sigmoid function to determine for each mini-batch the predicted values for the current weights. The loss function is then used to determine the gradients for the weights. If momentum is set to True, the method first updates the weights using the velocity array before updating the velocity array. Otherwise, it uses the gradients and the learning rate to directly update the weights. The approach determines the predicted values for all samples using the current weights after iterating over all of the mini-batches. Also, it computes this epoch’s accuracy and loss and adds them to the relevant histories. The loss and accuracy histories are kept in self.loss_history and self.score_history, respectively, at the end of the method.</p>
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> logistic <span class="im">import</span> LogisticRegression</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="25">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">200</span>, n_features <span class="op">=</span> p_features, centers <span class="op">=</span> [(<span class="dv">1</span>, <span class="dv">1</span>), (<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -323,7 +317,7 @@ background-size: cover;
 </section>
 <section id="example-1-a-case-in-which-gradient-descent-does-not-converge-to-a-minimizer-because-the-learning-rate-is-too-large." class="level2">
 <h2 class="anchored" data-anchor-id="example-1-a-case-in-which-gradient-descent-does-not-converge-to-a-minimizer-because-the-learning-rate-is-too-large.">Example 1: A case in which gradient descent does not converge to a minimizer because the learning rate is too large.</h2>
-<div class="cell" data-execution_count="26">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>LR.fit_stochastic(X, y, alpha <span class="op">=</span> <span class="fl">0.1</span>, max_epochs <span class="op">=</span> <span class="dv">1000</span>, batch_size <span class="op">=</span> <span class="dv">10</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR.loss_history)</span>
@@ -357,20 +351,20 @@ background-size: cover;
 </section>
 <section id="example-2-a-case-in-which-the-choice-of-batch-size-influences-how-quickly-the-algorithm-converges." class="level2">
 <h2 class="anchored" data-anchor-id="example-2-a-case-in-which-the-choice-of-batch-size-influences-how-quickly-the-algorithm-converges.">Example 2: A case in which the choice of batch size influences how quickly the algorithm converges.</h2>
-<div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">200</span>, n_features <span class="op">=</span> <span class="dv">5</span>, centers <span class="op">=</span> [(<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">0</span>, <span class="dv">0</span>)])</span>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">200</span>, n_features <span class="op">=</span> <span class="dv">5</span>, centers <span class="op">=</span> [(<span class="dv">1</span>, <span class="dv">1</span>), (<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>LR.fit_stochastic(X, y, alpha <span class="op">=</span> <span class="fl">0.1</span>, max_epochs <span class="op">=</span> <span class="dv">1000</span>, batch_size <span class="op">=</span> <span class="dv">30</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>LR.fit_stochastic(X, y, alpha <span class="op">=</span> <span class="fl">0.1</span>, max_epochs <span class="op">=</span> <span class="dv">1000</span>, batch_size <span class="op">=</span> <span class="dv">50</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR.loss_history)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR.loss_history, label <span class="op">=</span> <span class="st">"batch_size = 30"</span>, linestyle <span class="op">=</span> <span class="st">"--"</span>, color <span class="op">=</span> <span class="st">"blue"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR1.loss_history)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR1.loss_history, label <span class="op">=</span> <span class="st">"batch_size = 50"</span>, linestyle <span class="op">=</span> <span class="st">"--"</span>, color <span class="op">=</span> <span class="st">"blue"</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>LR_ <span class="op">=</span> LogisticRegression()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>LR_.fit_stochastic(X, y, alpha <span class="op">=</span> <span class="fl">0.1</span>, max_epochs <span class="op">=</span> <span class="dv">1000</span>, batch_size <span class="op">=</span> <span class="dv">50</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>LR_.fit_stochastic(X, y, alpha <span class="op">=</span> <span class="fl">0.1</span>, max_epochs <span class="op">=</span> <span class="dv">1000</span>, batch_size <span class="op">=</span> <span class="dv">30</span>)</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR_.loss_history)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR_.loss_history, label <span class="op">=</span> <span class="st">"batch_size = 50"</span>, linestyle <span class="op">=</span> <span class="st">"-"</span>, color <span class="op">=</span> <span class="st">"yellow"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR_.loss_history, label <span class="op">=</span> <span class="st">"batch_size = 30"</span>, linestyle <span class="op">=</span> <span class="st">"-"</span>, color <span class="op">=</span> <span class="st">"yellow"</span>)</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Epoch"</span>)</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Loss"</span>)</span>
@@ -388,7 +382,7 @@ background-size: cover;
 </section>
 <section id="example-3-if-you-implemented-momentum-a-case-in-which-the-use-of-momentum-significantly-speeds-up-convergence." class="level2">
 <h2 class="anchored" data-anchor-id="example-3-if-you-implemented-momentum-a-case-in-which-the-use-of-momentum-significantly-speeds-up-convergence.">Example 3: If you implemented momentum, a case in which the use of momentum significantly speeds up convergence.</h2>
-<div class="cell" data-execution_count="27">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">200</span>, n_features <span class="op">=</span> <span class="dv">5</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>)])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
@@ -419,12 +413,12 @@ background-size: cover;
 </section>
 <section id="all-lines-together" class="level2">
 <h2 class="anchored" data-anchor-id="all-lines-together">All Lines Together</h2>
-<div class="cell" data-execution_count="33">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">200</span>, n_features <span class="op">=</span> <span class="dv">5</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>)])</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Standard gradient descent</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, alpha <span class="op">=</span> <span class="fl">0.5</span>, max_epochs <span class="op">=</span> <span class="dv">1000</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, alpha <span class="op">=</span> <span class="fl">0.1</span>, max_epochs <span class="op">=</span> <span class="dv">1000</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR.loss_history)</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR.loss_history, label <span class="op">=</span> <span class="st">"gradient"</span>, color <span class="op">=</span> <span class="st">"skyblue"</span>)</span>
@@ -458,8 +452,8 @@ background-size: cover;
 <p><img src="Gradient-Descent-Blog_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<section id="overall-we-can-see-the-stochastic-gradient-with-momentum-to-converge-quicker-but-in-the-end-the-gradient-itself-catches-up." class="level4">
-<h4 class="anchored" data-anchor-id="overall-we-can-see-the-stochastic-gradient-with-momentum-to-converge-quicker-but-in-the-end-the-gradient-itself-catches-up.">Overall we can see the stochastic gradient with momentum to converge quicker but in the end the gradient itself catches up.</h4>
+<section id="overall-we-can-see-the-stochastic-gradient-with-momentum-to-converge-quicker." class="level4">
+<h4 class="anchored" data-anchor-id="overall-we-can-see-the-stochastic-gradient-with-momentum-to-converge-quicker.">Overall we can see the stochastic gradient with momentum to converge quicker.</h4>
 
 
 </section>
