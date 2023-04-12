@@ -55,7 +55,7 @@ class LogisticRegression:
     
         self.loss_history = []   #initialize loss_history list
         self.score_history = []  # initialize score_history list 
-        velocity = np.zeros_like(self.w) if momentum else 0
+        beta = np.zeros_like(self.w) if momentum else 0
 
         for epoch in range(self.max_epochs):
             order = np.arange(n_samples)
@@ -68,8 +68,8 @@ class LogisticRegression:
         
                 if momentum:
                     gradient = np.dot(self.sigmoid(y_hat) - yi, xi) / n_samples
-                    velocity = 0.8*velocity + alpha * gradient
-                    self.w -= velocity
+                    beta = 0.8*beta + alpha * gradient
+                    self.w -= beta
                 else:
                     gradient = np.dot(self.sigmoid(y_hat) - yi, xi) / n_samples
                     self.w -= alpha * gradient
