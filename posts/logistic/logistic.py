@@ -50,12 +50,14 @@ class LogisticRegression:
             batch_size = X.shape[0]
         
         n_samples, n_features = X.shape
-        self.w = np.random.rand(n_features+1)
+        self.w = np.zeros(n_features)
+        
 
     
         self.loss_history = []   #initialize loss_history list
         self.score_history = []  # initialize score_history list 
         beta = np.zeros_like(self.w) if momentum else 0
+        #beta = 0.8 if momentum else 0
 
         for epoch in range(self.max_epochs):
             order = np.arange(n_samples)
@@ -64,7 +66,7 @@ class LogisticRegression:
             for batch in np.array_split(order, n_samples // batch_size + 1):
                 xi = X[batch,:]  
                 yi = y[batch]
-                y_hat = np.dot(xi, self.w)
+                y_hat = np.dot(xi, self.w) 
         
                 if momentum:
                     gradient = np.dot(self.sigmoid(y_hat) - yi, xi) / n_samples
