@@ -3,8 +3,7 @@
     "listing": "/index.html",
     "items": [
       "/posts/logistic/Gradient-Descent-Blog.html",
-      "/posts/perceptron/Perception Algorithm.html",
-      "/posts/example-blog-post/index.html"
+      "/posts/perceptron/Perception Algorithm.html"
     ]
   }
 ]
