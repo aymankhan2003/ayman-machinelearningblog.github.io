@@ -6,7 +6,7 @@ about:
   links:
     - icon: linkedin
       text: LinkedIn
-      href: www.linkedin.com/in/aymanawsafkhan
+      href: https://www.linkedin.com/in/aymanawsafkhan
     - icon: github
       text: Github
       href: https://github.com/aymankhan2003
