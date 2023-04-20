@@ -11,7 +11,14 @@
     "href": "index.html",
     "title": "My Awesome CSCI 0451 Blog",
     "section": "",
-    "text": "A blog post on the gradient descent algorithm\n\n\n\n\n\n\nApr 11, 2023\n\n\nAyman Khan\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\nA blog post on the perceptron algorithm\n\n\n\n\n\n\nMar 11, 2023\n\n\nAyman Khan\n\n\n\n\n\n\nNo matching items"
+    "text": "A blog post on the works of Dr. Timnit Guru\n\n\n\n\n\n\nApr 19, 2023\n\n\nAyman Khan\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\nA blog post on the gradient descent algorithm\n\n\n\n\n\n\nApr 11, 2023\n\n\nAyman Khan\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\nA blog post on the perceptron algorithm\n\n\n\n\n\n\nMar 11, 2023\n\n\nAyman Khan\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/Dr.TimnitGebru/Dr.TimnitGebru.html",
+    "href": "posts/Dr.TimnitGebru/Dr.TimnitGebru.html",
+    "title": "Learning from Timnit Guru",
+    "section": "",
+    "text": "Dr. Gebru’s Talk\nDr. Gebru’s talk focused on the idea of how computer vision algorithms are often biased and unfair, especially when it comes to recognizing people with darker skin tones. She highlights several studies in which algorithms tend to have higher error rates for people of color which eventually lead to serious consequences such as criminal justice and hiring. Gebru emphasizes on the concept of how data is mostly trained to only include white males, where data on people of color tend to be excluded which algorithms cannot analyze hence causing a racial biasness bringing up the question of ethical compliance within many industries as they use these algorithms such as the national police force itself, as Dr. Gebru uses example oh how Batimore police use algorithms that obtains photos of Black protestors which brings a unfair case against them leading to them being arrested for no reason. Facial detection softwares are another instance of biasness which Gebru brings upon emphasis as many companies use facial detections which most black women and people of color in general tend to get mis-identified, and a huge reason for that is the implication that the data set upon the algorithm is being trained lacks the data of people of color as it is filled with a majority of white data.\ntl;dr: The number of biasness existing in Computer systems and AI is huge due to the lack of collective data in the training data and this causes unethical results in most businesses and human society.\n\n\nQuestion for Dr. Gebru\n\nWhat actions do you suggest researchers and developers take to address the existing bias issues within computer vision and AI technologies?\nHow can we ensure that the development and deployment of computer vision and AI technolgoies are more inclusive and diverse, and they prioritize the needs and well being of all individuals and communities involved?"
   },
   {
     "objectID": "posts/logistic/Gradient-Descent-Blog.html",
