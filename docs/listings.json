@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/unsupervisedlearning/UnsupervisedLearning.html",
       "/posts/linearregression/LinearBlog.html",
       "/posts/Dr.TimnitGebru/Dr.TimnitGebru.html",
       "/posts/logistic/Gradient-Descent-Blog.html",
