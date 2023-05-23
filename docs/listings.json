@@ -1,0 +1,13 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/penguins/Penguins-Blog.html",
+      "/posts/unsupervisedlearning/UnsupervisedLearning.html",
+      "/posts/linearregression/LinearBlog.html",
+      "/posts/Dr.TimnitGebru/Dr.TimnitGebru.html",
+      "/posts/logistic/Gradient-Descent-Blog.html",
+      "/posts/perceptron/Perception Algorithm.html"
+    ]
+  }
+]
