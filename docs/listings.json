@@ -3,6 +3,7 @@
     "listing": "/index.html",
     "items": [
       "/posts/penguins/Penguins-Blog.html",
+      "/posts/project/ProjectBlogPost.html",
       "/posts/unsupervisedlearning/UnsupervisedLearning.html",
       "/posts/linearregression/LinearBlog.html",
       "/posts/Dr.TimnitGebru/Dr.TimnitGebru.html",
